@@ -1,0 +1,19 @@
+{
+  "variants": {
+    "facing=east": {
+      "model": "axess:block/network_manager",
+      "y": 90
+    },
+    "facing=north": {
+      "model": "axess:block/network_manager"
+    },
+    "facing=south": {
+      "model": "axess:block/network_manager",
+      "y": 180
+    },
+    "facing=west": {
+      "model": "axess:block/network_manager",
+      "y": 270
+    }
+  }
+}

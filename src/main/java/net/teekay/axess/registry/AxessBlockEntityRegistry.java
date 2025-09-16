@@ -1,0 +1,52 @@
+package net.teekay.axess.registry;
+
+import net.minecraft.world.level.block.Block;
+
+import net.minecraft.world.level.block.entity.BlockEntityType;
+import net.minecraftforge.eventbus.api.IEventBus;
+import net.minecraftforge.registries.DeferredRegister;
+import net.minecraftforge.registries.ForgeRegistries;
+import net.minecraftforge.registries.RegistryObject;
+import net.teekay.axess.Axess;
+import net.teekay.axess.block.readers.AbstractKeycardReaderBlock;
+import net.teekay.axess.block.readers.KeycardReaderBlockEntity;
+
+import java.util.Collection;
+
+public class AxessBlockEntityRegistry {
+
+    public static final DeferredRegister<BlockEntityType<?>> DEFERRED_REGISTER = DeferredRegister.create(ForgeRegistries.BLOCK_ENTITY_TYPES, Axess.MODID);
+
+
+
+    // REGISTRY
+    public static final RegistryObject<BlockEntityType<KeycardReaderBlockEntity>> IRON_KEYCARD_READER = registerKeycardReader(
+            "iron_keycard_reader", AxessBlockRegistry.IRON_KEYCARD_READER);
+
+
+
+    private static RegistryObject<BlockEntityType<KeycardReaderBlockEntity>> registerKeycardReader(String id, RegistryObject<Block> block) {
+        return DEFERRED_REGISTER.register(id,
+                () -> BlockEntityType.Builder.of(
+                        (pos, state) -> new KeycardReaderBlockEntity(
+                                DEFERRED_REGISTER.getEntries()
+                                        .stream()
+                                        .filter(e -> e.getId().getPath().equals(id))
+                                        .findFirst()
+                                        .get()
+                                        .get(),
+                                pos, state
+                        ),
+                        block.get()
+                ).build(null));
+    }
+
+    public static void register(IEventBus eventBus) {
+        DEFERRED_REGISTER.register(eventBus);
+    }
+
+    public static Collection<RegistryObject<BlockEntityType<?>>> getEntries() {
+        return DEFERRED_REGISTER.getEntries();
+    }
+
+}

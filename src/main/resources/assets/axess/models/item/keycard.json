@@ -1,0 +1,21 @@
+{
+	"format_version": "1.21.6",
+	"credit": "Made with Blockbench",
+	"parent": "keycard",
+	"elements": [
+		{
+			"from": [1, 0, 7],
+			"to": [14, 7, 9],
+			"rotation": {"angle": 0, "axis": "y", "origin": [7, 0, 7]},
+			"color": 6,
+			"faces": {
+				"north": {"uv": [0, 0, 13, 7], "texture": "#missing"},
+				"east": {"uv": [0, 0, 2, 7], "texture": "#missing"},
+				"south": {"uv": [0, 0, 13, 7], "texture": "#missing"},
+				"west": {"uv": [0, 0, 2, 7], "texture": "#missing"},
+				"up": {"uv": [0, 0, 13, 2], "texture": "#missing"},
+				"down": {"uv": [0, 0, 13, 2], "texture": "#missing"}
+			}
+		}
+	]
+}
