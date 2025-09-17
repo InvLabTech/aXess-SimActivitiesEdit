@@ -1,9 +1,8 @@
 package net.teekay.axess.screen.component;
 
-import net.minecraft.client.gui.components.ImageButton;
 import net.minecraft.resources.ResourceLocation;
 
-public class DraggableImageButton extends ImageButton {
+public class DraggableImageButton extends HumbleImageButton {
 
     OnPress onRelease;
 

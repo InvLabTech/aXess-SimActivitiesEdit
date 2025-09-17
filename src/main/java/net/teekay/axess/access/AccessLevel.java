@@ -1,17 +1,23 @@
 package net.teekay.axess.access;
 
 import net.minecraft.nbt.CompoundTag;
+import net.teekay.axess.registry.AxessIconRegistry;
+import net.teekay.axess.utilities.AxessColors;
+import org.checkerframework.checker.units.qual.A;
 
 import java.util.UUID;
 
 public class AccessLevel {
     private String displayName;
-    private String symbol;
 
     private final UUID uuid;
     private final UUID networkUUID;
 
     private int priority;
+
+    private AxessIconRegistry.AxessIcon icon;
+
+    private AxessColors.Color color;
 
     public AccessLevel(UUID networkUUID) {
         this(networkUUID, UUID.randomUUID());
@@ -20,9 +26,10 @@ public class AccessLevel {
     public AccessLevel(UUID networkUUID, UUID uuid) {
         this.uuid = uuid;
         this.displayName = "New Access Level";
-        this.symbol = "1";
         this.priority = -1;
         this.networkUUID = networkUUID;
+        this.color = AxessColors.MAIN;
+        this.icon = AxessIconRegistry.NONE;
     }
 
     public int getPriority() {
@@ -41,6 +48,14 @@ public class AccessLevel {
         this.displayName = displayName;
     }
 
+    public AxessIconRegistry.AxessIcon getIcon() {
+        return icon;
+    }
+
+    public void setIcon(AxessIconRegistry.AxessIcon icon) {
+        this.icon = icon;
+    }
+
     public UUID getUUID() { return this.uuid; }
 
     public CompoundTag toNBT() {
@@ -50,7 +65,8 @@ public class AccessLevel {
         tag.putUUID("NetworkUUID", networkUUID);
 
         tag.putString("Name", displayName);
-        tag.putString("Symbol", symbol);
+        tag.putString("Icon", icon.ID);
+        tag.putInt("Color", color.colorInt);
 
         tag.putInt("Priority", priority);
 
@@ -64,7 +80,8 @@ public class AccessLevel {
         AccessLevel newAccessLevel = new AccessLevel(networkUUID, uuid);
 
         newAccessLevel.displayName = tag.getString("Name");
-        newAccessLevel.symbol = tag.getString("Symbol");
+        newAccessLevel.icon = AxessIconRegistry.getIcon(tag.getString("Icon"));
+        newAccessLevel.color = new AxessColors.Color(tag.getInt("Color"));
 
         newAccessLevel.priority = tag.getInt("Priority");
 

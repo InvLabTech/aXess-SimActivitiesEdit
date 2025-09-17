@@ -1,11 +1,10 @@
 package net.teekay.axess.client;
 
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.screens.Screen;
 import net.teekay.axess.access.AccessNetwork;
-import net.teekay.axess.screen.NetworkCreationScreen;
-import net.teekay.axess.screen.NetworkDeletionScreen;
-import net.teekay.axess.screen.NetworkEditorScreen;
-import net.teekay.axess.screen.NetworkManagerScreen;
+import net.teekay.axess.screen.*;
+import net.teekay.axess.screen.component.AccessLevelEntry;
 
 public class AxessClientMenus {
     public static boolean openNetworkManagerScreen() {
@@ -28,7 +27,17 @@ public class AxessClientMenus {
         return true;
     }
 
-    public static boolean closeScreen(AccessNetwork net) {
+    public static boolean openIconEditorScreen(NetworkEditorScreen s, AccessLevelEntry e) {
+        Minecraft.getInstance().pushGuiLayer(new IconSelectionScreen(s, e));
+        return true;
+    }
+
+    public static boolean returnToScreen(Screen s) {
+        Minecraft.getInstance().setScreen(s);
+        return true;
+    }
+
+    public static boolean closeScreen() {
         Minecraft.getInstance().setScreen(null);
         return true;
     }

@@ -3,7 +3,6 @@ package net.teekay.axess.screen;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.EditBox;
-import net.minecraft.client.gui.components.ImageButton;
 import net.minecraft.client.gui.components.Tooltip;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.multiplayer.ClientLevel;
@@ -14,8 +13,8 @@ import net.teekay.axess.access.AccessNetwork;
 import net.teekay.axess.access.AccessNetworkDataClient;
 import net.teekay.axess.client.AxessClientMenus;
 import net.teekay.axess.network.AxessPacketHandler;
-import net.teekay.axess.network.packets.server.CtSDeleteNetworkPacket;
 import net.teekay.axess.network.packets.server.CtSModifyNetworkPacket;
+import net.teekay.axess.screen.component.HumbleImageButton;
 import net.teekay.axess.screen.component.TexturedEditBox;
 import net.teekay.axess.utilities.AxessColors;
 
@@ -38,8 +37,8 @@ public class NetworkCreationScreen extends Screen {
     private int leftPos, topPos;
 
     // UI Elements
-    private ImageButton createButton;
-    private ImageButton backButton;
+    private HumbleImageButton createButton;
+    private HumbleImageButton backButton;
     private EditBox editBox;
 
     private AccessNetwork network;
@@ -66,7 +65,7 @@ public class NetworkCreationScreen extends Screen {
         if (level == null) return;
 
         this.createButton = addRenderableWidget(
-                new ImageButton(
+                new HumbleImageButton(
                         this.leftPos + 37,
                         this.topPos + 51,
                         20,
@@ -89,7 +88,7 @@ public class NetworkCreationScreen extends Screen {
         this.createButton.setTooltip(Tooltip.create(CREATE_BUTTON_LABEL));
 
         this.backButton = addRenderableWidget(
-                new ImageButton(
+                new HumbleImageButton(
                         this.leftPos + 81,
                         this.topPos + 51,
                         20,
@@ -129,7 +128,7 @@ public class NetworkCreationScreen extends Screen {
         int textLen = font.width(CREATE_LABEL);
         //int textLen2 = font.width(network.getName());
 
-        pGuiGraphics.drawString(this.font, CREATE_LABEL, this.leftPos + (this.imageWidth - textLen) / 2, this.topPos+8, AxessColors.MAIN, false);
+        pGuiGraphics.drawString(this.font, CREATE_LABEL, this.leftPos + (this.imageWidth - textLen) / 2, this.topPos+8, AxessColors.MAIN.colorInt, false);
         //pGuiGraphics.drawString(this.font, network.getName(), this.leftPos + (this.imageWidth - textLen2) / 2, this.topPos+30, 0xFFFFFF, false);
     }
 

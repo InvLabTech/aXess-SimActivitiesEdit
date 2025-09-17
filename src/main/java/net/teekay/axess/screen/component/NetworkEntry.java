@@ -1,8 +1,6 @@
 package net.teekay.axess.screen.component;
 
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.components.Button;
-import net.minecraft.client.gui.components.ImageButton;
 import net.minecraft.client.gui.components.Tooltip;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
@@ -18,7 +16,7 @@ public class NetworkEntry {
 
     public AccessNetwork network;
     public Button button;
-    public ImageButton trashButton;
+    public HumbleImageButton trashButton;
 
     public NetworkEntry(AccessNetwork network, int pX, int pY, int pWidth, int pHeight)
     {
@@ -26,7 +24,7 @@ public class NetworkEntry {
             AxessClientMenus.openNetworkEditorScreen(network);
         });
 
-        this.trashButton = new ImageButton(
+        this.trashButton = new HumbleImageButton(
                 pX + pWidth - 20,
                 pY,
                 20,

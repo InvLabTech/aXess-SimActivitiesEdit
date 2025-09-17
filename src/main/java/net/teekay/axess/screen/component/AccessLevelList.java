@@ -14,6 +14,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.teekay.axess.Axess;
 import net.teekay.axess.access.AccessLevel;
 import net.teekay.axess.access.AccessNetwork;
+import net.teekay.axess.client.AxessClientMenus;
 import net.teekay.axess.screen.NetworkEditorScreen;
 import net.teekay.axess.utilities.MathUtil;
 import org.checkerframework.checker.units.qual.A;
@@ -32,7 +33,7 @@ public class AccessLevelList extends AbstractWidget {
     private static final Component EDIT_TEXT = Component.translatable("gui."+Axess.MODID+".button.edit");
     private static final Component DELETE_TEXT = Component.translatable("gui."+Axess.MODID+".button.delete");
 
-    private int scrollPos = 0;
+    public int scrollPos = 0;
     private int maxScrollPos = 0;
 
     private int width, height;
@@ -52,7 +53,9 @@ public class AccessLevelList extends AbstractWidget {
 
     private boolean orderDirty = false;
 
-    public AccessLevelList(Consumer<AbstractWidget> childrenAdder, Consumer<AbstractWidget> childrenRemover, AccessNetwork network, int leftPos, int topPos, int width, int height) {
+    private NetworkEditorScreen screen;
+
+    public AccessLevelList(NetworkEditorScreen screen, Consumer<AbstractWidget> childrenAdder, Consumer<AbstractWidget> childrenRemover, AccessNetwork network, int leftPos, int topPos, int width, int height) {
         super(leftPos, topPos, width, height, Component.empty());
 
         this.width = width;
@@ -62,6 +65,7 @@ public class AccessLevelList extends AbstractWidget {
         this.network = network;
         this.childrenAdder = childrenAdder;
         this.childrenRemover = childrenRemover;
+        this.screen = screen;
     }
 
     private void updateMaxScroll() {
@@ -76,11 +80,14 @@ public class AccessLevelList extends AbstractWidget {
     public AccessLevelEntry addElement(AccessLevel level) {
         AccessLevelEntry newButton = new AccessLevelEntry(childrenAdder, childrenRemover, level, leftPos, topPos, width, elemHeight,
             () -> removeElement(level), // TRASH
-            (entry) -> {
+            (entry) -> { // start drag
                 if (dragged == null) dragged = entry;
             },
-            (entry) -> {
+            (entry) -> { // end drag
                 
+            },
+            (entry) -> { // on edit icon
+                AxessClientMenus.openIconEditorScreen(screen, entry);
             }
         );
 

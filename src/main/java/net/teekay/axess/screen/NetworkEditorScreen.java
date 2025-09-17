@@ -1,8 +1,8 @@
 package net.teekay.axess.screen;
 
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.*;
-import net.minecraft.client.gui.components.events.GuiEventListener;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.network.chat.Component;
@@ -16,9 +16,6 @@ import net.teekay.axess.network.AxessPacketHandler;
 import net.teekay.axess.network.packets.server.CtSModifyNetworkPacket;
 import net.teekay.axess.screen.component.*;
 import net.teekay.axess.utilities.AxessColors;
-import org.jline.reader.Widget;
-
-import java.util.function.Consumer;
 
 public class NetworkEditorScreen extends Screen {
 
@@ -27,6 +24,7 @@ public class NetworkEditorScreen extends Screen {
     private static final Component DONE_BUTTON_LABEL = Component.translatable("gui."+Axess.MODID+".buttons.done");
     private static final Component CANCEL_BUTTON_LABEL = Component.translatable("gui."+Axess.MODID+".buttons.cancel");
     private static final Component ADD_BUTTON_LABEL = Component.translatable("gui."+Axess.MODID+".buttons.add_access_level");
+    private static final Component NETWORK_NAME_LABEL = Component.translatable("gui."+Axess.MODID+".inputs.network_name");
 
     private static final ResourceLocation TEXTURE = ResourceLocation.fromNamespaceAndPath(Axess.MODID, "textures/gui/network_editor.png");
     private static final ResourceLocation ADD_TEXTURE = ResourceLocation.fromNamespaceAndPath(Axess.MODID, "textures/gui/create_button.png");
@@ -38,10 +36,11 @@ public class NetworkEditorScreen extends Screen {
     public final AccessNetwork network;
 
     // UI Elements
-    private ImageButton addButton;
+    private HumbleImageButton addButton;
     private AccessLevelList accessLevelList;
     private TexturedButton doneButton;
     private TexturedButton cancelButton;
+    private EditBox nameEdit;
 
     public NetworkEditorScreen(AccessNetwork net) {
         super(TITLE_LABEL);
@@ -63,6 +62,19 @@ public class NetworkEditorScreen extends Screen {
         ClientLevel level = this.minecraft.level;
         if (level == null) return;
 
+        this.nameEdit = addRenderableWidget(
+                new TexturedEditBox(Minecraft.getInstance().font,
+                        this.leftPos + 12,
+                        this.topPos + 26,
+                        180,
+                        20,
+                        Component.literal(network.getName())
+                )
+        );
+        this.nameEdit.setValue(network.getName());
+        this.nameEdit.setResponder(network::setName);
+        this.nameEdit.setTooltip(Tooltip.create(NETWORK_NAME_LABEL));
+        this.nameEdit.setMaxLength(22);
 
         this.doneButton = addRenderableWidget(
                 new TexturedButton(leftPos + 12, topPos + 173, 108, 20, DONE_BUTTON_LABEL, btn -> {
@@ -70,6 +82,7 @@ public class NetworkEditorScreen extends Screen {
                             this.network.getAccessLevels()) {
                         if (accessLevel.getDisplayName().isEmpty()) return;
                     }
+                    if (network.getName().isEmpty()) return;
                     AccessNetworkDataClient.setNetwork(this.network);
                     AxessPacketHandler.sendToServer(new CtSModifyNetworkPacket(this.network));
                     AxessClientMenus.openNetworkManagerScreen();
@@ -82,9 +95,16 @@ public class NetworkEditorScreen extends Screen {
                 })
         );
 
-        this.accessLevelList = new AccessLevelList(this::addWidget, this::removeWidget, network, leftPos + 14, topPos + 51, 224, 116);
 
-        ImageButton addButton = new ImageButton(
+        int pastPos = 0;
+        if (this.accessLevelList != null) {
+            pastPos = this.accessLevelList.scrollPos;
+        }
+
+        this.accessLevelList = new AccessLevelList(this, this::addWidget, this::removeWidget, network, leftPos + 14, topPos + 51, 224, 116);
+        this.accessLevelList.scrollPos = pastPos;
+
+        HumbleImageButton addButton = new HumbleImageButton(
                 this.leftPos + 218,
                 this.topPos + 26,
                 20,
@@ -124,7 +144,7 @@ public class NetworkEditorScreen extends Screen {
         //int networks = this.accessLevelList.getSize();
         //pGuiGraphics.drawString(this.font, Component.literal(String.valueOf(networks)).append(" ").append(networks == 1 ? NETWORK_LABEL : NETWORKS_LABEL),
         //        this.leftPos+13, this.topPos+32, AxessColors.MAIN, false);
-        pGuiGraphics.drawString(this.font, TITLE_LABEL, this.leftPos+8, this.topPos+8, AxessColors.MAIN, false);
+        pGuiGraphics.drawString(this.font, TITLE_LABEL, this.leftPos+8, this.topPos+8, AxessColors.MAIN.colorInt, false);
     }
 
     @Override

@@ -32,7 +32,7 @@ public class KeycardReaderBlockEntityRenderer implements BlockEntityRenderer<Key
         this.context = ctx;
     }
 
-    public static final ResourceLocation TEXTURE = AxessIconRegistry.FILLED;
+    public static final ResourceLocation TEXTURE = AxessIconRegistry.DEBUG.TEXTURE;
 
     @Override
     public void render(KeycardReaderBlockEntity pBlockEntity, float pPartialTick, PoseStack pPoseStack, MultiBufferSource pBuffer, int pPackedLight, int pPackedOverlay) {

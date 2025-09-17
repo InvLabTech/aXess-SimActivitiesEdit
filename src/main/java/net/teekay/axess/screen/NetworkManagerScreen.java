@@ -1,31 +1,19 @@
 package net.teekay.axess.screen;
 
-import com.mojang.authlib.minecraft.client.MinecraftClient;
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.*;
 import net.minecraft.client.gui.screens.Screen;
-import net.minecraft.client.gui.screens.inventory.StonecutterScreen;
 import net.minecraft.client.multiplayer.ClientLevel;
-import net.minecraft.client.tutorial.Tutorial;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraftforge.client.gui.widget.ScrollPanel;
 import net.teekay.axess.Axess;
-import net.teekay.axess.access.AccessLevel;
 import net.teekay.axess.access.AccessNetwork;
 import net.teekay.axess.access.AccessNetworkDataClient;
 import net.teekay.axess.client.AxessClientMenus;
+import net.teekay.axess.screen.component.HumbleImageButton;
 import net.teekay.axess.screen.component.NetworkEntry;
 import net.teekay.axess.screen.component.NetworkList;
 import net.teekay.axess.utilities.AxessColors;
-import org.w3c.dom.Text;
-
-import javax.tools.Tool;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.UUID;
-import java.util.logging.Level;
 
 public class NetworkManagerScreen extends Screen {
 
@@ -44,7 +32,7 @@ public class NetworkManagerScreen extends Screen {
     private int leftPos, topPos;
 
     // UI Elements
-    private ImageButton addButton;
+    private HumbleImageButton addButton;
     private NetworkList networkList;
 
     public NetworkManagerScreen() {
@@ -65,7 +53,7 @@ public class NetworkManagerScreen extends Screen {
         ClientLevel level = this.minecraft.level;
         if (level == null) return;
 
-        ImageButton addButton = new ImageButton(
+        HumbleImageButton addButton = new HumbleImageButton(
                 this.leftPos + 163,
                 this.topPos + 25,
                 20,
@@ -105,8 +93,8 @@ public class NetworkManagerScreen extends Screen {
 
         int networks = this.networkList.getSize();
         pGuiGraphics.drawString(this.font, Component.literal(String.valueOf(networks)).append(" ").append(networks == 1 ? NETWORK_LABEL : NETWORKS_LABEL),
-                this.leftPos+13, this.topPos+32, AxessColors.MAIN, false);
-        pGuiGraphics.drawString(this.font, TITLE_LABEL, this.leftPos+8, this.topPos+8, AxessColors.MAIN, false);
+                this.leftPos+13, this.topPos+32, AxessColors.MAIN.colorInt, false);
+        pGuiGraphics.drawString(this.font, TITLE_LABEL, this.leftPos+8, this.topPos+8, AxessColors.MAIN.colorInt, false);
     }
 
     @Override
