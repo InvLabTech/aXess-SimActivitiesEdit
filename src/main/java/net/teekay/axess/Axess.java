@@ -15,10 +15,7 @@ import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.RegistryObject;
-import net.teekay.axess.registry.AxessBlockEntityRegistry;
-import net.teekay.axess.registry.AxessBlockRegistry;
-import net.teekay.axess.registry.AxessIconRegistry;
-import net.teekay.axess.registry.AxessItemRegistry;
+import net.teekay.axess.registry.*;
 import org.slf4j.Logger;
 
 // The value here should match an entry in the META-INF/mods.toml file
@@ -52,6 +49,7 @@ public class Axess {
         AxessBlockRegistry.register(modEventBus);
         AxessItemRegistry.register(modEventBus);
         AxessBlockEntityRegistry.register(modEventBus);
+        AxessMenuRegistry.register(modEventBus);
 
         CREATIVE_MODE_TABS.register(modEventBus);
 

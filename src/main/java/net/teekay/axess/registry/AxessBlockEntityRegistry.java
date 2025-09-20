@@ -8,6 +8,7 @@ import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
 import net.teekay.axess.Axess;
+import net.teekay.axess.block.keycardeditor.KeycardEditorBlockEntity;
 import net.teekay.axess.block.readers.AbstractKeycardReaderBlock;
 import net.teekay.axess.block.readers.KeycardReaderBlockEntity;
 
@@ -22,6 +23,12 @@ public class AxessBlockEntityRegistry {
     // REGISTRY
     public static final RegistryObject<BlockEntityType<KeycardReaderBlockEntity>> IRON_KEYCARD_READER = registerKeycardReader(
             "iron_keycard_reader", AxessBlockRegistry.IRON_KEYCARD_READER);
+
+    public static final RegistryObject<BlockEntityType<KeycardEditorBlockEntity>> KEYCARD_EDITOR = DEFERRED_REGISTER.register("keycard_editor",
+            () -> BlockEntityType.Builder.of(
+                    KeycardEditorBlockEntity::new,
+                    AxessBlockRegistry.KEYCARD_EDITOR.get()
+            ).build(null));
 
 
 

@@ -9,9 +9,7 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.teekay.axess.Axess;
 import net.teekay.axess.access.AccessLevel;
-import net.teekay.axess.utilities.AxessColors;
 
-import java.util.HashMap;
 import java.util.function.Consumer;
 
 public class AccessLevelEntry extends AbstractWidget {
@@ -55,10 +53,10 @@ public class AccessLevelEntry extends AbstractWidget {
                 Minecraft.getInstance().font,
                 pX+4+1+20+1+20+1, pY,
                 pWidth-20-20-4-3-20-1, pHeight,
-                Component.literal(accessLevel.getDisplayName()));
+                Component.literal(accessLevel.getName()));
         this.editBox.setTooltip(Tooltip.create(NAME_TEXT));
-        this.editBox.setResponder(accessLevel::setDisplayName);
-        this.editBox.setValue(accessLevel.getDisplayName());
+        this.editBox.setResponder(accessLevel::setName);
+        this.editBox.setValue(accessLevel.getName());
         this.editBox.setMaxLength(22);
 
         this.fakeTrashButton = new HumbleImageButton(

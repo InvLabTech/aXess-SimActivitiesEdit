@@ -8,6 +8,7 @@ import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
 import net.teekay.axess.Axess;
+import net.teekay.axess.block.keycardeditor.KeycardEditorBlock;
 import net.teekay.axess.block.networkmanager.NetworkManagerBlock;
 import net.teekay.axess.block.readers.IronKeycardReaderBlock;
 
@@ -24,6 +25,7 @@ public class AxessBlockRegistry {
     // REGISTRY
     public static final RegistryObject<Block> IRON_KEYCARD_READER = registerBlock("iron_keycard_reader", IronKeycardReaderBlock::new);
     public static final RegistryObject<Block> NETWORK_MANAGER = registerBlock("network_manager", NetworkManagerBlock::new);
+    public static final RegistryObject<Block> KEYCARD_EDITOR = registerBlock("keycard_editor", KeycardEditorBlock ::new);
 
     private static RegistryObject<Block> registerBlock(String id, Supplier<Block> block) { return registerBlock(id, block, true); }
     private static RegistryObject<Block> registerBlock(String id, Supplier<Block> blockSupplier, boolean withItem) {

@@ -24,6 +24,12 @@ public class AxessBlockStateProvider extends BlockStateProvider {
         ModelFile networkManagerModel = getBlockModel(networkManagerID);
         horizontalBlock(AxessBlockRegistry.NETWORK_MANAGER.get(), networkManagerModel);
         itemModels().getBuilder(networkManagerID).parent(networkManagerModel);
+
+        // KEYCARD EDITOR
+        String keycardEditorID = "keycard_editor";
+        ModelFile keycardEditorModel = getBlockModel(keycardEditorID);
+        horizontalBlock(AxessBlockRegistry.KEYCARD_EDITOR.get(), keycardEditorModel);
+        itemModels().getBuilder(keycardEditorID).parent(keycardEditorModel);
     }
 
     private ModelFile getBlockModel(String id) {

@@ -4,9 +4,7 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.world.level.saveddata.SavedData;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 
 public class AccessNetworkDataClient {
 
@@ -14,6 +12,10 @@ public class AccessNetworkDataClient {
 
     public static HashMap<UUID, AccessNetwork> getNetworkRegistry() {
         return networkRegistry;
+    }
+
+    public static List<AccessNetwork> getNetworks() {
+        return networkRegistry.values().stream().toList();
     }
 
     public static void loadAllFromServer(AccessNetworkDataServer serverData) {

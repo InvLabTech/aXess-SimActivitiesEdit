@@ -21,31 +21,15 @@ public class TexturedButton extends Button {
     @Override
     public void renderWidget(GuiGraphics graphics, int mouseX, int mouseY, float partialTick) {
 
-        boolean isHovering = (mouseX >= getX() && mouseX < getX() + width && mouseY >= getY() && mouseY < getY() + height);;
+        this.isHovered = (mouseX >= getX() && mouseX < getX() + width && mouseY >= getY() && mouseY < getY() + height);
 
-        graphics.blit(
-            BUTTON_TEXTURE,
-                this.getX(),
-                this.getY(),
-                0,
-                (isHovering ? 20 : 0),
-                this.width,
-                this.height,
-                256,
-                256
-        );
-
-        graphics.blit(
+        graphics.blitNineSliced(
                 BUTTON_TEXTURE,
-                this.getX() + width - 1,
-                this.getY(),
-                0,
-                (isHovering ? 20 : 0),
-                1,
-                this.height,
-                256,
-                256
-        );
+                this.getX(), this.getY(),
+                this.width, this.height,
+                1, 1,
+                200, 20,
+                0, (isHoveredOrFocused() ? 20 : 0));
 
         Font font = Minecraft.getInstance().font;
         int textWidth = font.width(this.getMessage());
@@ -60,7 +44,7 @@ public class TexturedButton extends Button {
             offset = (int) (Math.sin(timePassed) * ((textWidth - this.width) / 2));
         }
 
-        graphics.drawString(font, this.getMessage(), textX + offset, textY, isHovering ? 0xFFFFFF : AxessColors.MAIN.getRGB(), false);
+        graphics.drawString(font, this.getMessage(), textX + offset, textY, isHoveredOrFocused() ? 0xFFFFFF : AxessColors.MAIN.getRGB(), false);
 
         graphics.disableScissor();
 

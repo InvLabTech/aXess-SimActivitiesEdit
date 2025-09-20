@@ -112,7 +112,7 @@ public class ColorSelectionScreen extends Screen {
                         0,
                         20,
                         CONFIRM_BUTTON_TEXTURE,
-                        32, 64,
+                        32, 96,
                         btn -> {
                             entry.accessLevel.setColor(displayedColor);
                             Minecraft.getInstance().popGuiLayer();

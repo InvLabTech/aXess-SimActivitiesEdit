@@ -85,6 +85,10 @@ public class AccessNetwork {
         return accessLevels;
     }
 
+    public AccessLevel getAccessLevel(UUID uuid) {
+        return accessLevelsHashMap.get(uuid);
+    }
+
     public void sortPriorities() {
         accessLevels.sort(Comparator.comparingInt(AccessLevel::getPriority));
 

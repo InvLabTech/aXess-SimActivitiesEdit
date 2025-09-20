@@ -1,3 +1,4 @@
-// 1.20.1	2025-09-09T19:47:09.7767665	Loot Tables
+// 1.20.1	2025-09-20T01:28:39.3564754	Loot Tables
 4297a7bbedfc2b847aa6e7150f83ef4522346ba3 data/axess/loot_tables/blocks/iron_keycard_reader.json
+ccba637c0dfd55e66fd24db78eddccdab388fa1f data/axess/loot_tables/blocks/keycard_editor.json
 becc380aeac9c94bdb17b649175a2ec0f4b465b7 data/axess/loot_tables/blocks/network_manager.json

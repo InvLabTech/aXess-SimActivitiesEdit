@@ -83,7 +83,7 @@ public class NetworkEditorScreen extends Screen {
                 new TexturedButton(leftPos + 12, topPos + 173, 108, 20, DONE_BUTTON_LABEL, btn -> {
                     for (AccessLevel accessLevel :
                             this.network.getAccessLevels()) {
-                        if (accessLevel.getDisplayName().isEmpty()) return;
+                        if (accessLevel.getName().isEmpty()) return;
                     }
                     if (network.getName().isEmpty()) return;
                     AccessNetworkDataClient.setNetwork(this.network);

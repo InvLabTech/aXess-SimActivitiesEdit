@@ -3,13 +3,12 @@ package net.teekay.axess.access;
 import net.minecraft.nbt.CompoundTag;
 import net.teekay.axess.registry.AxessIconRegistry;
 import net.teekay.axess.utilities.AxessColors;
-import org.checkerframework.checker.units.qual.A;
 
 import java.awt.*;
 import java.util.UUID;
 
 public class AccessLevel {
-    private String displayName;
+    private String name;
 
     private final UUID uuid;
     private final UUID networkUUID;
@@ -26,7 +25,7 @@ public class AccessLevel {
 
     public AccessLevel(UUID networkUUID, UUID uuid) {
         this.uuid = uuid;
-        this.displayName = "New Access Level";
+        this.name = "New Access Level";
         this.priority = -1;
         this.networkUUID = networkUUID;
         this.color = AxessColors.MAIN;
@@ -40,11 +39,11 @@ public class AccessLevel {
         this.priority = priority;
     }
 
-    public String getDisplayName() {
-        return displayName;
+    public String getName() {
+        return name;
     }
-    public void setDisplayName(String displayName) {
-        this.displayName = displayName;
+    public void setName(String name) {
+        this.name = name;
     }
 
     public AxessIconRegistry.AxessIcon getIcon() {
@@ -69,7 +68,7 @@ public class AccessLevel {
         tag.putUUID("UUID", uuid);
         tag.putUUID("NetworkUUID", networkUUID);
 
-        tag.putString("Name", displayName);
+        tag.putString("Name", name);
         tag.putString("Icon", icon.ID);
         tag.putInt("Color", color.getRGB());
 
@@ -84,7 +83,7 @@ public class AccessLevel {
 
         AccessLevel newAccessLevel = new AccessLevel(networkUUID, uuid);
 
-        newAccessLevel.displayName = tag.getString("Name");
+        newAccessLevel.name = tag.getString("Name");
         newAccessLevel.icon = AxessIconRegistry.getIcon(tag.getString("Icon"));
         newAccessLevel.color = new Color(tag.getInt("Color"));
 
