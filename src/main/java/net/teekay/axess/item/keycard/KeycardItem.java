@@ -2,6 +2,6 @@ package net.teekay.axess.item;
 
 public class KeycardItem extends AbstractKeycardItem {
     public KeycardItem() {
-        super(new Properties());
+        super(new Properties().stacksTo(1));
     }
 }
