@@ -9,6 +9,7 @@ import net.teekay.axess.Axess;
 import net.teekay.axess.access.AccessLevel;
 import net.teekay.axess.access.AccessNetwork;
 import net.teekay.axess.client.AxessClientMenus;
+import net.teekay.axess.screen.NetworkEditorScreen;
 import net.teekay.axess.utilities.AxessColors;
 import net.teekay.axess.utilities.MathUtil;
 
@@ -28,33 +29,37 @@ public class AccessLevelList extends AbstractWidget {
     public int scrollPos = 0;
     private int maxScrollPos = 0;
 
-    private int width, height;
-    private int leftPos, topPos;
-    private int elemHeight = 20;
-    private int padding = 1;
+    public int width, height;
+    public int leftPos, topPos;
+    public int elemHeight = 20;
+    public int padding = 1;
 
     private int scrollerHeight = 14;
     private int scrollerWidth = 4;
-    private AccessNetwork network;
-
-    private Consumer<AbstractWidget> childrenAdder;
-    private Consumer<AbstractWidget> childrenRemover;
 
     private AccessLevelEntry dragged = null;
     private int lastPredictedDraggableIndex = -1;
 
     private boolean orderDirty = false;
 
-    public AccessLevelList(Consumer<AbstractWidget> childrenAdder, Consumer<AbstractWidget> childrenRemover, AccessNetwork network, int leftPos, int topPos, int width, int height) {
-        super(leftPos, topPos, width, height, Component.empty());
+    public NetworkEditorScreen screen;
 
-        this.width = width;
-        this.height = height;
-        this.leftPos = leftPos;
-        this.topPos = topPos;
-        this.network = network;
-        this.childrenAdder = childrenAdder;
-        this.childrenRemover = childrenRemover;
+    public void startDrag(AccessLevelEntry entry) {
+        if (dragged == null) dragged = entry;
+    }
+
+    public void trash(AccessLevelEntry entry) {
+        removeElement(entry.accessLevel);
+    }
+
+    public AccessLevelList(NetworkEditorScreen screen) {
+        super(screen.leftPos + 14, screen.topPos + 51, 224, 116, Component.empty());
+
+        this.width = 224;
+        this.height = 116;
+        this.leftPos = screen.leftPos + 14;
+        this.topPos = screen.topPos + 51;
+        this.screen = screen;
     }
 
     private void updateMaxScroll() {
@@ -68,17 +73,7 @@ public class AccessLevelList extends AbstractWidget {
 
     public AccessLevelEntry addElement(AccessLevel level) {
         // on edit icon
-        AccessLevelEntry newButton = new AccessLevelEntry(childrenAdder, childrenRemover, level, leftPos, topPos, width, elemHeight,
-            () -> removeElement(level), // TRASH
-            (entry) -> { // start drag
-                if (dragged == null) dragged = entry;
-            },
-            (entry) -> { // end drag
-                
-            },
-                AxessClientMenus::openIconSelectionScreen,
-                AxessClientMenus::openColorSelectionScreen //AxessClientMenus::openIconSelectionScreen
-        );
+        AccessLevelEntry newButton = new AccessLevelEntry(this, level);
 
         buttons.add(newButton);
 
@@ -90,7 +85,7 @@ public class AccessLevelList extends AbstractWidget {
 
     public void removeElement(AccessLevel level) {
         buttons.removeIf((AccessLevelEntry entry) -> entry.accessLevel == level);
-        this.network.removeAccessLevel(level);
+        screen.network.removeAccessLevel(level);
 
         updateMaxScroll();
         updateOrder();
@@ -129,7 +124,7 @@ public class AccessLevelList extends AbstractWidget {
         }
 
         int predictedDraggableIndex = MathUtil.clampInt((mouseY - topPos + scrollPos) / (elemHeight + padding), 0, buttons.size() - 1);
-        int initialDragIndex = dragging ? network.getAccessLevels().size() - 1 - dragged.accessLevel.getPriority() : 0;
+        int initialDragIndex = dragging ? screen.network.getAccessLevels().size() - 1 - dragged.accessLevel.getPriority() : 0;
 
         int index = 0;
         for (AccessLevelEntry accessLevelEntry : buttons) {
@@ -185,7 +180,7 @@ public class AccessLevelList extends AbstractWidget {
         //System.out.println(lastPredictedDraggableIndex);
         //System.out.println((network.getAccessLevels().size() - 1) - lastPredictedDraggableIndex);
 
-        network.moveLevelToPriority(dragged.accessLevel, (network.getAccessLevels().size() - 1) - lastPredictedDraggableIndex);
+        screen.network.moveLevelToPriority(dragged.accessLevel, (screen.network.getAccessLevels().size() - 1) - lastPredictedDraggableIndex);
         orderDirty = true;
         dragged = null;
 

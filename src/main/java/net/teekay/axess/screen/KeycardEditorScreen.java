@@ -106,6 +106,9 @@ public class KeycardEditorScreen extends AbstractContainerScreen<KeycardEditorMe
     public void render(GuiGraphics pGuiGraphics, int pMouseX, int pMouseY, float pPartialTick) {
         renderBackground(pGuiGraphics);
 
+        scrollPosLevels   = MathUtil.clampInt(scrollPosLevels,   0, scrollMaxLevels  );
+        scrollPosNetworks = MathUtil.clampInt(scrollPosNetworks, 0, scrollMaxNetworks);
+
         super.render(pGuiGraphics, pMouseX, pMouseY, pPartialTick);
 
         pGuiGraphics.drawString(this.font, TITLE_LABEL, this.leftPos+8, this.topPos+8, AxessColors.MAIN.getRGB(), false);
@@ -238,7 +241,7 @@ public class KeycardEditorScreen extends AbstractContainerScreen<KeycardEditorMe
         }
         networkEntries.clear();
 
-        scrollPosNetworks = 0;
+        //scrollPosNetworks = 0;
         scrollMaxNetworks = 0;
     }
 
@@ -248,7 +251,7 @@ public class KeycardEditorScreen extends AbstractContainerScreen<KeycardEditorMe
         }
         levelEntries.clear();
 
-        scrollPosLevels = 0;
+        //scrollPosLevels = 0;
         scrollMaxLevels = 0;
     }
 
@@ -297,20 +300,14 @@ public class KeycardEditorScreen extends AbstractContainerScreen<KeycardEditorMe
 
             this.network = network;
             this.index = index;
+
+            setBounds(leftPos+NETWORKS_X, topPos+NETWORKS_Y, leftPos+NETWORKS_X+NETWORKS_WIDTH, topPos+NETWORKS_Y+NETWORKS_HEIGHT);
         }
 
         @Override
         public void render(GuiGraphics pGuiGraphics, int pMouseX, int pMouseY, float pPartialTick) {
             this.setY(topPos + NETWORKS_Y + index * (ENTRY_HEIGHT + ENTRY_PADDING) - scrollPosNetworks);
             super.render(pGuiGraphics, pMouseX, pMouseY, pPartialTick);
-        }
-
-        @Override
-        public boolean mouseClicked(double pMouseX, double pMouseY, int pButton) {
-            if (pMouseY < topPos + NETWORKS_Y) return false;
-            if (pMouseY > topPos + NETWORKS_Y + NETWORKS_HEIGHT) return false;
-
-            return super.mouseClicked(pMouseX, pMouseY, pButton);
         }
 
         @Override
@@ -331,6 +328,8 @@ public class KeycardEditorScreen extends AbstractContainerScreen<KeycardEditorMe
             this.level = level;
             this.index = index;
             this.textPaddingLeft = 21;
+
+            setBounds(leftPos+LEVELS_X, topPos+LEVELS_Y, leftPos+LEVELS_X+LEVELS_WIDTH, topPos+LEVELS_Y+LEVELS_HEIGHT);
         }
 
         @Override
@@ -343,14 +342,6 @@ public class KeycardEditorScreen extends AbstractContainerScreen<KeycardEditorMe
             pGuiGraphics.setColor(level.getColor().getRed()/255f, level.getColor().getGreen()/255f, level.getColor().getBlue()/255f, 1f);
             pGuiGraphics.blit(level.getIcon().TEXTURE, this.getX() + 2, y, 0, 0, 18, 18, 18, 18);
             pGuiGraphics.setColor(1f,1f,1f,1f);
-        }
-
-        @Override
-        public boolean mouseClicked(double pMouseX, double pMouseY, int pButton) {
-            if (pMouseY < topPos + LEVELS_Y) return false;
-            if (pMouseY > topPos + LEVELS_Y + LEVELS_HEIGHT) return false;
-
-            return super.mouseClicked(pMouseX, pMouseY, pButton);
         }
 
         @Override

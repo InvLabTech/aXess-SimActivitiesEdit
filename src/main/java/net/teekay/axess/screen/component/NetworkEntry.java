@@ -15,11 +15,16 @@ public class NetworkEntry {
     private static final Component DELETE_TEXT = Component.translatable("gui."+Axess.MODID+".button.delete");
 
     public AccessNetwork network;
-    public Button button;
+    public TexturedButton button;
     public HumbleImageButton trashButton;
 
-    public NetworkEntry(AccessNetwork network, int pX, int pY, int pWidth, int pHeight)
+    public NetworkEntry(NetworkList list, AccessNetwork network)
     {
+        int pX = list.leftPos;
+        int pY = list.topPos;
+        int pWidth = list.width;
+        int pHeight = list.elemHeight;
+
         this.button = new TexturedButton(pX, pY, pWidth-21, pHeight, Component.literal(network.getName()), btn -> {
             AxessClientMenus.openNetworkEditorScreen(network);
         });
@@ -40,6 +45,9 @@ public class NetworkEntry {
 
         this.button.setTooltip(Tooltip.create(EDIT_TEXT));
         this.trashButton.setTooltip(Tooltip.create(DELETE_TEXT));
+
+        this.button.setBounds(pX, pY, pX+pWidth, pY+list.height);
+        this.trashButton.setBounds(pX, pY, pX+pWidth, pY+list.height);
 
         this.network = network;
     }

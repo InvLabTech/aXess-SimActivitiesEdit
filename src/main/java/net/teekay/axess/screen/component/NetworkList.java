@@ -22,10 +22,10 @@ public class NetworkList {
     private int scrollPos = 0;
     private int maxScrollPos = 0;
 
-    private int width, height;
-    private int leftPos, topPos;
-    private int elemHeight = 20;
-    private int padding = 1;
+    public int width, height;
+    public int leftPos, topPos;
+    public int elemHeight = 20;
+    public int padding = 1;
 
     private int scrollerWidth = 4;
 
@@ -42,7 +42,7 @@ public class NetworkList {
     }
 
     public NetworkEntry addElement(AccessNetwork network) {
-        NetworkEntry newButton = new NetworkEntry(network, leftPos, topPos, width, elemHeight);
+        NetworkEntry newButton = new NetworkEntry(this, network);
         buttons.add(newButton);
         updateMaxScroll();
         return newButton;

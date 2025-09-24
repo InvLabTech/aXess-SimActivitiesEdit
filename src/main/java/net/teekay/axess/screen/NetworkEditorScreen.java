@@ -3,6 +3,7 @@ package net.teekay.axess.screen;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.*;
+import net.minecraft.client.gui.components.events.GuiEventListener;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.network.chat.Component;
@@ -17,6 +18,8 @@ import net.teekay.axess.network.packets.server.CtSModifyNetworkPacket;
 import net.teekay.axess.screen.component.*;
 import net.teekay.axess.utilities.AxessColors;
 
+import java.util.function.Consumer;
+
 public class NetworkEditorScreen extends Screen {
 
     private static final Component TITLE_LABEL = Component.translatable("gui."+Axess.MODID+".network_editor");
@@ -30,9 +33,9 @@ public class NetworkEditorScreen extends Screen {
     private static final ResourceLocation TEXTURE = ResourceLocation.fromNamespaceAndPath(Axess.MODID, "textures/gui/network_editor.png");
     private static final ResourceLocation ADD_TEXTURE = ResourceLocation.fromNamespaceAndPath(Axess.MODID, "textures/gui/create_button.png");
 
-    private final int imageWidth, imageHeight;
+    public final int imageWidth, imageHeight;
 
-    private int leftPos, topPos;
+    public int leftPos, topPos;
 
     public final AccessNetwork network;
 
@@ -42,6 +45,9 @@ public class NetworkEditorScreen extends Screen {
     private TexturedButton doneButton;
     private TexturedButton cancelButton;
     private EditBox nameEdit;
+
+    public Consumer<AbstractWidget> childrenAdder = this::addWidget;
+    public Consumer<AbstractWidget> childrenRemover = this::addWidget;
 
     public NetworkEditorScreen(AccessNetwork net) {
         super(TITLE_LABEL);
@@ -104,7 +110,7 @@ public class NetworkEditorScreen extends Screen {
             pastPos = this.accessLevelList.scrollPos;
         }
 
-        this.accessLevelList = new AccessLevelList(this::addWidget, this::removeWidget, network, leftPos + 14, topPos + 51, 224, 116);
+        this.accessLevelList = new AccessLevelList(this);
         this.accessLevelList.scrollPos = pastPos;
 
         HumbleImageButton addButton = new HumbleImageButton(

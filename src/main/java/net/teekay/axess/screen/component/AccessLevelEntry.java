@@ -7,8 +7,10 @@ import net.minecraft.client.gui.narration.NarrationElementOutput;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraftforge.common.util.LazyOptional;
 import net.teekay.axess.Axess;
 import net.teekay.axess.access.AccessLevel;
+import net.teekay.axess.client.AxessClientMenus;
 
 import java.util.function.Consumer;
 
@@ -41,13 +43,19 @@ public class AccessLevelEntry extends AbstractWidget {
 
     public boolean dragging = false;
 
-    private Consumer<AbstractWidget> childrenRemover;
+    public AccessLevelList list;
 
-    public AccessLevelEntry(Consumer<AbstractWidget> childrenAdder, Consumer<AbstractWidget> childrenRemover, AccessLevel accessLevel, int pX, int pY, int pWidth, int pHeight, Runnable onTrash, Consumer<AccessLevelEntry> onStartDrag, Consumer<AccessLevelEntry> onEndDrag, Consumer<AccessLevelEntry> onEditIcon, Consumer<AccessLevelEntry> onEditColor)
+    public AccessLevelEntry(AccessLevelList list, AccessLevel level)
     {
-        super(pX, pY, pWidth, pHeight, Component.empty());
+        super(list.leftPos, list.topPos, list.width, list.elemHeight, Component.empty());
 
-        this.childrenRemover = childrenRemover;
+        this.accessLevel = level;
+        this.list = list;
+
+        int pX = list.leftPos;
+        int pY = list.topPos;
+        int pWidth = list.width;
+        int pHeight = list.elemHeight;
 
         this.editBox = new TexturedEditBox(
                 Minecraft.getInstance().font,
@@ -87,7 +95,7 @@ public class AccessLevelEntry extends AbstractWidget {
                 32, 64,
                 btn -> {
                     if (!Screen.hasShiftDown()) return;
-                    onTrash.run();
+                    list.trash(this);
                     remove();
                 }
         );
@@ -97,12 +105,12 @@ public class AccessLevelEntry extends AbstractWidget {
                 btn -> { // PRESS
                     this.dragging = true;
                     this.dragButton.dragging = true;
-                    onStartDrag.accept(this);
+                    list.startDrag(this);
                 },
                 btn -> { // RELEASE
                     this.dragging = false;
                     this.dragButton.dragging = false;
-                    onEndDrag.accept(this);
+                    list.startDrag(this);
                 });
 
         this.iconButton = new HumbleImageButton(
@@ -116,7 +124,7 @@ public class AccessLevelEntry extends AbstractWidget {
                 EMPTY_BUTTON_TEXTURE,
                 32, 64,
                 btn -> {
-                    onEditIcon.accept(this);
+                    AxessClientMenus.openIconSelectionScreen(this);
                 }
         );
         this.iconButton.setTooltip(Tooltip.create(ICON_TEXT));
@@ -132,19 +140,25 @@ public class AccessLevelEntry extends AbstractWidget {
                 EMPTY_BUTTON_TEXTURE,
                 32, 64,
                 btn -> {
-                    onEditColor.accept(this);
+                    AxessClientMenus.openColorSelectionScreen(this);
                 }
         );
         this.colorButton.setTooltip(Tooltip.create(COLOR_TEXT));
 
-        childrenAdder.accept(this.editBox);
-        childrenAdder.accept(this.trashButton);
-        childrenAdder.accept(this.fakeTrashButton);
-        childrenAdder.accept(this.dragButton);
-        childrenAdder.accept(this.iconButton);
-        childrenAdder.accept(this.colorButton);
+        list.screen.childrenAdder.accept(editBox);
+        list.screen.childrenAdder.accept(trashButton);
+        list.screen.childrenAdder.accept(fakeTrashButton);
+        list.screen.childrenAdder.accept(dragButton);
+        list.screen.childrenAdder.accept(iconButton);
+        list.screen.childrenAdder.accept(colorButton);
 
-        this.accessLevel = accessLevel;
+        // set bounds
+        editBox.setBounds(list.leftPos, list.topPos, list.leftPos + list.width, list.topPos + list.height);
+        trashButton.setBounds(list.leftPos, list.topPos, list.leftPos + list.width, list.topPos + list.height);
+        fakeTrashButton.setBounds(list.leftPos, list.topPos, list.leftPos + list.width, list.topPos + list.height);
+        dragButton.setBounds(list.leftPos, list.topPos, list.leftPos + list.width, list.topPos + list.height);
+        iconButton.setBounds(list.leftPos, list.topPos, list.leftPos + list.width, list.topPos + list.height);
+        colorButton.setBounds(list.leftPos, list.topPos, list.leftPos + list.width, list.topPos + list.height);
     }
 
     public void forceUpdateYPos(int yPos, float partialTick) {
@@ -177,12 +191,12 @@ public class AccessLevelEntry extends AbstractWidget {
     }
 
     public void remove() {
-        childrenRemover.accept(this.editBox);
-        childrenRemover.accept(this.trashButton);
-        childrenRemover.accept(this.dragButton);
-        childrenRemover.accept(this.iconButton);
-        childrenRemover.accept(this.colorButton);
-        childrenRemover.accept(this.fakeTrashButton);
+        list.screen.childrenRemover.accept(this.editBox);
+        list.screen.childrenRemover.accept(this.trashButton);
+        list.screen.childrenRemover.accept(this.dragButton);
+        list.screen.childrenRemover.accept(this.iconButton);
+        list.screen.childrenRemover.accept(this.colorButton);
+        list.screen.childrenRemover.accept(this.fakeTrashButton);
     }
 
     @Override
