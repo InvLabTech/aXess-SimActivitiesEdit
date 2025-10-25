@@ -1,4 +1,6 @@
 {
+  "gui.axess.creative_tab": "aXess",
+
   "sounds.axess.keycard_reader_success": "Keycard accepted",
   "sounds.axess.keycard_reader_off": "Reader deacivated",
   "sounds.axess.keycard_reader_decline": "Keycard declined",

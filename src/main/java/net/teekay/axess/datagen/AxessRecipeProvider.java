@@ -41,9 +41,10 @@ public class AxessRecipeProvider extends RecipeProvider implements IConditionBui
 
         ShapedRecipeBuilder.shaped(RecipeCategory.REDSTONE, AxessBlockRegistry.KEYCARD_READER.get())
                 .pattern("SSS")
-                .pattern("S S")
+                .pattern("STS")
                 .pattern("SSS")
                 .define('S', Items.IRON_INGOT)
+                .define('T', Items.REDSTONE_TORCH)
                 .unlockedBy(getHasName(Items.IRON_INGOT), has(Items.IRON_INGOT))
                 .save(pWriter);
 

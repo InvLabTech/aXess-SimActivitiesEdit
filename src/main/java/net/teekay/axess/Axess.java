@@ -2,8 +2,10 @@ package net.teekay.axess;
 
 import com.mojang.logging.LogUtils;
 import net.minecraft.core.registries.Registries;
+import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.Block;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.server.ServerStartingEvent;
@@ -16,6 +18,7 @@ import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.RegistryObject;
 import net.teekay.axess.registry.*;
 import org.slf4j.Logger;
+import org.slf4j.MDC;
 
 // The value here should match an entry in the META-INF/mods.toml file
 @Mod(Axess.MODID)
@@ -40,7 +43,10 @@ public class Axess {
                         output.accept(block.get().asItem());
                     } catch (Exception e) {}
                 }
-            }).build());
+            })
+            .title(Component.translatable("gui." + MODID + ".creative_tab"))
+            .icon(() -> new ItemStack(AxessItemRegistry.KEYCARD.get(), 1))
+            .build());
 
     public Axess(FMLJavaModLoadingContext context) {
         IEventBus modEventBus = context.getModEventBus();
