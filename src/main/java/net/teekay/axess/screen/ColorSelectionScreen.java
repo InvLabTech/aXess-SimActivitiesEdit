@@ -98,10 +98,6 @@ public class ColorSelectionScreen extends Screen {
 
         remakeColors();
 
-        System.out.println(hueColors);
-        System.out.println(saturationColors);
-        System.out.println(vibranceColors);
-
         this.confirmButton = addRenderableWidget(
                 new HumbleImageButton(
                         this.leftPos + 44,

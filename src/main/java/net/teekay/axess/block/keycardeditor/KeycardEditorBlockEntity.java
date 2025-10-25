@@ -27,20 +27,29 @@ import org.jetbrains.annotations.Nullable;
 
 public class KeycardEditorBlockEntity extends BlockEntity implements MenuProvider {
     public static class KeycardItemStackHandler extends ItemStackHandler {
-        public KeycardItemStackHandler(int i) {
+        private final Runnable onChangedCallback;
+
+        public KeycardItemStackHandler(int i, Runnable onChanged) {
             super(i);
+            onChangedCallback = onChanged;
         }
 
         @Override
         public boolean isItemValid(int slot, @NotNull ItemStack stack) {
             return super.isItemValid(slot, stack) && (stack.getItem() instanceof AbstractKeycardItem);
         }
+
+        @Override
+        protected void onContentsChanged(int slot) {
+            super.onContentsChanged(slot);
+            if (onChangedCallback != null) onChangedCallback.run();
+        }
     }
 
 
     private static final Component TITLE = Component.translatable("gui." + Axess.MODID + ".keycard_editor");
 
-    private final ItemStackHandler itemStackHandler = new KeycardItemStackHandler(1);
+    private final ItemStackHandler itemStackHandler = new KeycardItemStackHandler(1, this::setChanged);
     public static final int KEYCARD_SLOT = 0;
 
     private LazyOptional<IItemHandler> lazyItemHandler = LazyOptional.empty();
@@ -74,7 +83,7 @@ public class KeycardEditorBlockEntity extends BlockEntity implements MenuProvide
 
     @Override
     public void load(CompoundTag pTag) {
-        System.out.println(pTag);
+        //System.out.println(pTag);
         itemStackHandler.deserializeNBT(pTag.getCompound("inventory"));
 
         super.load(pTag);

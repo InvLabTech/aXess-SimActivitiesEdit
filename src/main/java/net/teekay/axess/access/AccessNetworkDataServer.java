@@ -39,7 +39,7 @@ public class AccessNetworkDataServer extends SavedData {
 
     @Override
     public CompoundTag save(CompoundTag tag) {
-        System.out.println("[!] Saving access networks...");
+        //System.out.println("[!] Saving access networks...");
 
         for (HashMap.Entry<UUID, AccessNetwork> networkEntry :
                 networkRegistry.entrySet()) {
@@ -55,7 +55,7 @@ public class AccessNetworkDataServer extends SavedData {
 
         for (String key : tag.getAllKeys()) {
             data.networkRegistry.put(UUID.fromString(key), AccessNetwork.fromNBT(tag.getCompound(key)));
-            System.out.println("Sloaded " + key);
+            //System.out.println("Sloaded " + key);
         }
 
         return data;
@@ -116,7 +116,7 @@ public class AccessNetworkDataServer extends SavedData {
         AccessNetwork networkToDelete = getNetwork(network);
 
         if (!AccessUtils.canPlayerEditNetwork(player, networkToDelete)) {
-            System.out.println(networkToDelete.getOwnerUUID() + " is not equal to " + player.getUUID());
+            //System.out.println(networkToDelete.getOwnerUUID() + " is not equal to " + player.getUUID());
             return false;
         }
 

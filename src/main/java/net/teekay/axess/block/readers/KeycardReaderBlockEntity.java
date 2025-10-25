@@ -364,8 +364,8 @@ public class KeycardReaderBlockEntity extends BlockEntity implements MenuProvide
         activationMode = AccessActivationMode.valueOf(modTag.getString(ACTIVATION_MODE_KEY));
         pulseDurationTicks = modTag.getInt(PULSE_DURATION_TICKS_KEY);
 
-        reader_pairPos = null;
         reader_pairID = null;
+        reader_pairPos = null;
         receiver_pairID = null;
         receiver_pairPos = null;
         display_pairID = null;

@@ -5,6 +5,12 @@
 *.ipr
 *.iws
 
+run/
+run2/
+run-data/
+
+src/generated
+
 # IntelliJ
 out/
 # mpeltonen/sbt-idea plugin

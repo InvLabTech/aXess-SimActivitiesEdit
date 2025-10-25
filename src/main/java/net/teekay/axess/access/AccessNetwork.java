@@ -58,7 +58,7 @@ public class AccessNetwork {
 
         tag.put("AccessLevels", list);
 
-        System.out.println(tag);
+        //System.out.println(tag);
 
         return tag;
     }
