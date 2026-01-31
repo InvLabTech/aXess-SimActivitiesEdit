@@ -83,10 +83,10 @@ public class AccessNetworkDataServer extends SavedData {
     }
 
     public boolean canPlayerCreateNetwork(ServerPlayer player, AccessNetwork network) {
-        // get count
-        int networksCreatedByPlayer = networkRegistry.values().stream().filter( (net) -> net.isOwnedBy(player) ).toList().size();
+        // 将 maxNetworksPerPlayer 作为总网络数限制，不再按玩家区分
+        int totalNetworks = networkRegistry.size();
 
-        return (networksCreatedByPlayer < AxessConfig.maxNetworksPerPlayer) && AccessUtils.canPlayerEditNetwork(player, network);
+        return (totalNetworks < AxessConfig.maxNetworksPerPlayer) && AccessUtils.canPlayerEditNetwork(player, network);
     }
 
     public boolean validateNetwork(AccessNetwork network) {

@@ -13,8 +13,8 @@ public class AxessConfig
     private static final ForgeConfigSpec.Builder BUILDER = new ForgeConfigSpec.Builder();
 
     private static final ForgeConfigSpec.IntValue MAX_NETWORKS_PER_PLAYER = BUILDER
-            .comment("The maximum amount of networks a player can own.")
-            .defineInRange("max_networks_per_player", 5, 1, 20);
+            .comment("The maximum amount of networks allowed in total.")
+            .defineInRange("max_networks_per_player", 50, 1, 100);
     private static final ForgeConfigSpec.IntValue MAX_LEVELS_PER_NETWORK = BUILDER
             .comment("The maximum amount of access levels a network can have.")
             .defineInRange("max_levels_per_network", 20, 1, 100);

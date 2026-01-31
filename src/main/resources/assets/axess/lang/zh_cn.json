@@ -6,6 +6,8 @@
   "sounds.axess.keycard_reader_decline": "凭据被拒绝",
 
   "item.axess.keycard": "钥匙卡",
+  "item.axess.doohickey_keycard": "Doohickey公司钥匙卡",
+  "item.axess.doohickey_master_keycard": "根Doohickey公司钥匙卡",
   "item.axess.access_wrench": "访问扳手",
   "item.axess.linker": "连接器",
 
@@ -42,6 +44,7 @@
   "gui.axess.button.create": "创建",
   "gui.axess.button.done": "完成",
   "gui.axess.button.cancel": "取消",
+  "gui.axess.button.confirm": "确认",
   "gui.axess.button.add_access_level": "新权限等级",
   "gui.axess.button.change_color": "改变颜色",
   "gui.axess.button.change_icon": "改变图标",
@@ -77,6 +80,7 @@
   "gui.axess.keycard_reader.pulse_duration.prefix": "脉冲: ",
   "gui.axess.keycard_reader.pulse_duration.suffix": " Ticks",
   "gui.axess.keycard_reader.synced": "这些属性与配对的读卡机同步。",
+  "gui.axess.keycard_reader.override_display": "自定义图标",
 
   "gui.axess.compare_mode": "比较模式: ",
   "gui.axess.compare_mode.BIGGER_THAN_OR_EQUAL": ">=",

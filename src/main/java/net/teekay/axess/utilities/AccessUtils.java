@@ -8,7 +8,8 @@ public class AccessUtils {
     public static boolean canPlayerEditNetwork(Player player, AccessNetwork network) {
         if (network == null) return true;
 
-        return (network.getOwnerUUID().equals(player.getUUID()) || (player.isCreative() && player.hasPermissions(4)));
+        // 让所有玩家都能编辑网络，实现共享权限空间
+        return true;
     }
 
 }
